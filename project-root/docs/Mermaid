@@ -1,0 +1,15 @@
+flowchart TD
+    Frontend[Frontend (Pronto no Lovable)]
+    API[API Backend<br/>(REST/GraphQL)]
+    Banco[Banco de Dados<br/>(Star Schema)]
+    Auth[Autenticação/RBAC]
+    Services[Business Services<br/>(Diagnóstico, Funil, etc)]
+    Integrations[Painel de Integrações]
+    Analytics[Analytics/Dashboards]
+    
+    Frontend --> API
+    API --> Banco
+    API --> Services
+    API --> Auth
+    API --> Analytics
+    API --> Integrations

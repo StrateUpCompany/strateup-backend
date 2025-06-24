@@ -1,0 +1,47 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// MODELS
+
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  name  String
+  leads Lead[]
+}
+
+model Funnel {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  leads       Lead[]
+  automations Automation[]
+}
+
+model Lead {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String
+  funnel   Funnel @relation(fields: [funnelId], references: [id])
+  funnelId Int
+  owner    User   @relation(fields: [ownerId], references: [id])
+  ownerId  Int
+}
+
+model Automation {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  funnelId    Int
+  funnel      Funnel   @relation(fields: [funnelId], references: [id])
+  triggers    Json
+  actions     Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
