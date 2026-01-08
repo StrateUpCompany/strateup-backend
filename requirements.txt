@@ -51,3 +51,4 @@ python-slugify
 
 playwright==1.49.0
 email-validator
+pandas
