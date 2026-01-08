@@ -1,10 +1,11 @@
-# Use Python 3.12 slim image
-FROM python:3.12-slim
+# Use official Playwright image which includes Python and Browsers
+FROM mcr.microsoft.com/playwright/python:v1.49.0-jammy
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies (Playwright image is Ubuntu-based)
+# libpq-dev is needed for psycopg2
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libpq-dev \
@@ -16,8 +17,7 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browsers and dependencies
-RUN playwright install --with-deps chromium
+# (Browsers are already installed in this base image, so we skip 'playwright install')
 
 # Copy the backend code
 COPY backend/ ./backend/
